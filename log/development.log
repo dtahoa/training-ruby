@@ -1,0 +1,172 @@
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT pg_try_advisory_lock(737815420147457505);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(737815420147457505)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(737815420147457505);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateModelTable (20170524040930)
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.7ms)[0m  [1m[35mDROP TABLE "channels" CASCADE[0m
+  [1m[35m (52.0ms)[0m  [1m[35mCREATE TABLE "channels" ("guid" uuid PRIMARY KEY, "name" character varying(50), "owner" uuid, "org_id" uuid, "is_private" boolean, "state" text, "status" text, "shared_with" jsonb, "created_at" timestamp, "updated_at" timestamp)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mDROP TABLE "organizations" CASCADE[0m
+  [1m[35m (77.1ms)[0m  [1m[35mCREATE TABLE "organizations" ("guid" uuid PRIMARY KEY, "name" character varying(100), "logo" bytea, "primary_contact_email" character varying(255), "status" boolean, "details" character varying, "created_at" timestamp, "updated_at" timestamp)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE "users" CASCADE[0m
+  [1m[35m (52.0ms)[0m  [1m[35mCREATE TABLE "users" ("guid" uuid PRIMARY KEY, "email" character varying(50), "first_name" character varying(50), "last_name" character varying(50), "password_hash" character varying(128), "password_salt" character varying(128), "org_id" uuid, "feature_access" jsonb, "access_token" text, "should_reset_password" boolean, "last_login_at" timestamp, "created_at" timestamp, "updated_at" timestamp)[0m
+  [1m[35m (8.5ms)[0m  [1m[35mALTER TABLE "channels" ADD CONSTRAINT "channels_org_id_fkey"
+FOREIGN KEY ("org_id")
+  REFERENCES "organizations" ("guid")
+[0m
+  [1m[35m (4.8ms)[0m  [1m[35mALTER TABLE "users" ADD CONSTRAINT "users_org_id_fkey"
+FOREIGN KEY ("org_id")
+  REFERENCES "organizations" ("guid")
+[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170524040930"]]
+  [1m[35m (58.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(737815420147457505)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 11:15:15 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  
+ActionController::RoutingError (No route matches [GET] "/organizations"):
+  
+actionpack (5.0.3) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.3) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.3) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.0.3) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.3) lib/rails/engine.rb:522:in `call'
+puma (3.8.2) lib/puma/configuration.rb:224:in `call'
+puma (3.8.2) lib/puma/server.rb:600:in `handle_request'
+puma (3.8.2) lib/puma/server.rb:435:in `process_client'
+puma (3.8.2) lib/puma/server.rb:299:in `block in run'
+puma (3.8.2) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-05-24 11:15:18 +0700
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb (3.3ms)
+Completed 200 OK in 8ms (Views: 7.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 11:30:49 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  
+ActionController::RoutingError (No route matches [GET] "/organizations"):
+  
+actionpack (5.0.3) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.3) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.3) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.3) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.0.3) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.3) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.3) lib/rails/engine.rb:522:in `call'
+puma (3.8.2) lib/puma/configuration.rb:224:in `call'
+puma (3.8.2) lib/puma/server.rb:600:in `handle_request'
+puma (3.8.2) lib/puma/server.rb:435:in `process_client'
+puma (3.8.2) lib/puma/server.rb:299:in `block in run'
+puma (3.8.2) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 11:33:09 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/" for 127.0.0.1 at 2017-05-24 11:33:45 +0700
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb (2.8ms)
+Completed 200 OK in 7ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-05-24 11:43:18 +0700
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/osboxes/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/railties-5.0.3/lib/rails/templates/rails/welcome/index.html.erb (7.9ms)
+Completed 200 OK in 16ms (Views: 14.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 12:21:47 +0700
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 14:15:25 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (5.9ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 14:38:03 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 14:52:09 +0700
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 14:52:10 +0700
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
+Started GET "/organizations" for 127.0.0.1 at 2017-05-24 14:52:10 +0700
+Processing by OrganizationsController#index as HTML
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant OrganizationsController::Organization):
+  
+app/controllers/organizations_controller.rb:6:in `index'
